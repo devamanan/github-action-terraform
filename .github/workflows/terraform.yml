@@ -41,4 +41,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve tfplan -auto-approve -var="instance_type=t2.medium"
+        run: terraform apply -auto-approve tfplan -var="instance_type=t2.medium"
