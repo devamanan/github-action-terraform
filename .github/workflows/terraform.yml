@@ -34,7 +34,7 @@ jobs:
         run: terraform init '-var="instance_type=t2.medium"'
 
       - name: Terraform Validate
-        run: terraform validate -var="instance_type=t2.medium"
+        run: terraform validate 
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan -var="instance_type=t2.medium"
