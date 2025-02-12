@@ -41,23 +41,26 @@ jobs:
 
       - name: Terraform Init
         run: terraform init 
+
       - name: Terraform Validate
         run: terraform validate 
 
+      # Plan for Apply
       - name: Terraform Plan (Apply)
         if: ${{ github.event.inputs.terraform_action == 'apply' }}
         run: terraform plan -out=tfplan -var="instance_type=t2.micro"
 
+      # Apply Terraform changes
       - name: Terraform Apply
         if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.terraform_action == 'apply' }}
-        run: terraform apply -auto-approve tfplan -var="instance_type=t2.micro"
+        run: terraform apply -auto-approve tfplan  # No -var here!
 
+      # Plan for Destroy
       - name: Terraform Plan (Destroy)
         if: ${{ github.event.inputs.terraform_action == 'destroy' }}
-        run: terraform plan -destroy -out=tfplan -var="instance_type=t2.micro"
+        run: terraform plan -destroy -out=tfplan
 
+      # Destroy Terraform resources
       - name: Terraform Destroy
         if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.terraform_action == 'destroy' }}
-        run: terraform apply -auto-approve tfplan -var="instance_type=t2.micro"
-
-        
+        run: terraform destroy -auto-approve
