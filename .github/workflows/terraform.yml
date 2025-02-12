@@ -58,7 +58,7 @@ jobs:
       # Plan for Destroy
       - name: Terraform Plan (Destroy)
         if: ${{ github.event.inputs.terraform_action == 'destroy' }}
-        run: terraform plan -destroy -out=tfplan
+        run: terraform plan -destroy -out=tfplan -var="instance_type=t2.micro"
 
       # Destroy Terraform resources
       - name: Terraform Destroy
