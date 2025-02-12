@@ -63,4 +63,4 @@ jobs:
       # Destroy Terraform resources
       - name: Terraform Destroy
         if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.terraform_action == 'destroy' }}
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var="instance_type=t2.micro"
