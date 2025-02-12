@@ -1,6 +1,15 @@
 name: Terraform CI/CD
 
 on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        type: choice
+        description: "Select Terraform action"
+        options:
+          - apply
+          - destroy
+        required: true
   push:
     branches:
       - main  # Runs when code is pushed to the 'main' branch
@@ -40,5 +49,9 @@ jobs:
         run: terraform plan -out=tfplan -var="instance_type=t2.medium"
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.terraform_action == 'apply' }}
         run: terraform apply -auto-approve tfplan 
+
+      - name: Terraform Destroy
+        if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.terraform_action == 'destroy' }}
+        run: terraform destroy -auto-approve tfplan 
